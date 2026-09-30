@@ -1,0 +1,12 @@
+{
+  "name": "amargometro",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "amargómetro. - anotá tus mates del día. Tus datos viven en tu navegador.",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "dev": "python3 -m http.server 4173"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
