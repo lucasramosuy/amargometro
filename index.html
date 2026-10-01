@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es-UY" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>amargómetro. - anotá tus mates</title>
+<meta name="description" content="Anotá tus mates del día y mirá tu propio wrapped. Sin cuentas ni servidor: tus datos viven en tu navegador.">
+<meta name="theme-color" content="#F3EFE4">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script>
+  // Tema antes del primer pintado, para que no parpadee.
+  try { var t = localStorage.getItem('amargometro:tema'); if (t === 'claro' || t === 'oscuro') document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="wm" href="./" aria-label="amargómetro.">amargómetro<i>.</i></a>
+    <nav>
+      <button class="btn" id="btn-tema" type="button" aria-label="Cambiar tema"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6"/><path d="M8 2v12" /><path d="M8 2a6 6 0 010 12z" fill="currentColor"/></svg><span id="tema-txt">Tema</span></button>
+      <button class="btn" id="btn-hist" type="button">Historial</button>
+    </nav>
+  </header>
+
+  <p class="strip" role="note"><svg width="14" height="14" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="13" width="20" height="14" rx="3"/><path d="M10 13V9a5 5 0 0110 0v4"/></svg> Tus datos viven en tu navegador. Sin cuentas, sin servidor.</p>
+
+  <main class="grid">
+    <div class="col">
+      <section class="card hero" aria-labelledby="hoy-t">
+        <svg class="mate" viewBox="0 0 120 150" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M78 6L58 78"/><path d="M75 12l6 2"/><ellipse cx="44" cy="74" rx="32" ry="9" fill="var(--yl)"/><path d="M12 74c-2 40 12 68 32 68s34-28 32-68" fill="var(--y)"/><path d="M20 100c8 6 16 8 24 8s18-2 26-8" stroke-width="2"/><ellipse cx="44" cy="74" rx="22" ry="5" fill="var(--yd)"/></svg>
+        <span class="mono" id="hoy-t"></span>
+        <div class="n"><span id="n-hoy">0</span><small id="n-hoy-u">mates</small></div>
+        <p id="hoy-frase"></p>
+        <button class="add" id="btn-add" type="button"><svg width="20" height="20" viewBox="0 0 20 20" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M10 3v14M3 10h14"/></svg>Cebar uno</button>
+        <div class="chips" id="chips" role="radiogroup" aria-label="Tipo de mate"></div>
+        <details class="antes">
+          <summary>Cargar uno de antes</summary>
+          <div class="antes-row">
+            <input type="datetime-local" id="antes-dt" aria-label="Fecha y hora">
+            <button class="btn" id="btn-antes" type="button">Agregar</button>
+          </div>
+        </details>
+      </section>
+
+      <section class="card" aria-labelledby="lista-t">
+        <h2><span id="lista-t">Hoy</span><span class="mute" id="lista-n"></span></h2>
+        <ul id="lista"></ul>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="wr-wrap" aria-labelledby="wr-t">
+        <div class="seg" role="tablist" aria-label="Período del wrapped" id="seg">
+          <button type="button" role="tab" data-p="semana" aria-selected="true">Semana</button>
+          <button type="button" role="tab" data-p="mes" aria-selected="false">Mes</button>
+          <button type="button" role="tab" data-p="todo" aria-selected="false">Todo</button>
+        </div>
+        <div class="wr" id="wr">
+          <span class="mono" id="wr-t"></span>
+          <h3 id="wr-h"></h3>
+          <div class="stats" id="wr-stats"></div>
+          <div class="row"><button class="btn" id="btn-share" type="button">Compartir imagen</button></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="sem-t">
+        <h2><span id="sem-t">Últimos 7 días</span><span class="mute" id="sem-prom"></span></h2>
+        <div class="week" id="week"></div>
+      </section>
+
+      <section class="priv" aria-labelledby="priv-t">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="13" width="20" height="14" rx="3"/><path d="M10 13V9a5 5 0 0110 0v4"/></svg>
+        <div>
+          <b id="priv-t">Tus datos viven en tu navegador.</b>
+          <p>No hay cuentas ni servidor: lo que anotás se guarda solo en este dispositivo y nadie más lo ve. Si borrás los datos del navegador, se van. Exportá una copia de vez en cuando.</p>
+          <div class="acts">
+            <button class="btn" id="btn-export" type="button">Exportar</button>
+            <button class="btn" id="btn-import" type="button">Importar</button>
+            <button class="btn danger" id="btn-borrar" type="button">Borrar todo</button>
+          </div>
+          <input type="file" id="file" accept="application/json,.json" hidden>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer><span class="mono">amargómetro. · un estudio de lucas.</span><span class="mono">sin cuentas · sin rastreo</span></footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-t"></span><button type="button" id="toast-b"></button></div>
+
+<dialog id="dlg-hist"><form method="dialog">
+  <h2><span>Historial</span><button class="btn x" value="x" aria-label="Cerrar">Cerrar</button></h2>
+  <div id="hist-body"></div>
+</form></dialog>
+
+<dialog id="dlg-conf"><form method="dialog">
+  <b id="conf-t" class="conf-t"></b>
+  <p id="conf-p"></p>
+  <div class="acts"><button class="btn" value="no">Cancelar</button><button class="btn p danger-f" value="si" id="conf-ok"></button></div>
+</form></dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
