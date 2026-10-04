@@ -89,3 +89,12 @@ dialog p{font-size:14px;color:var(--mute);line-height:1.45}
 .hrow:first-child{border-top:0}.hrow span:last-child{font-family:DM,monospace}
 @media(max-width:380px){.hero .n{font-size:96px}.mate{width:110px}.wr h3{font-size:30px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Táctil (Apple HIG): controles a 16px (evita el zoom de iOS) y 44px de toque. Solo en pantallas táctiles. */
+@media (pointer:coarse){
+  :root :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),select,textarea){font-size:16px}
+  :root :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),select){min-height:44px}
+  .btn,.chip,.seg button,.priv .btn{min-height:44px}
+  .antes summary{padding-block:14px}
+  .wm{display:inline-flex;align-items:center;min-height:44px}
+}
